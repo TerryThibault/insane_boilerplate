@@ -30,9 +30,6 @@ def thread_starter():
     results = pool.map(start, passwords)
     pool.close()
     pool.join()
-    #r = requests.post("http://docker.hackthebox.eu:34827/", data={'password':'lol'})
-    #print(r.text)
-    #thread.start_new_thread(start, (param1, param2))
 
 def start(password):
     password = password.decode('utf-8').strip()
