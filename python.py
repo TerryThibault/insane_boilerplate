@@ -1,7 +1,7 @@
 import socket
 import pickle
-import thread
-
+## For CPU intensive tasking, don't use dummy. Dummy is threading, which is only run on one core of your CPU (Processes can be split amongst all cores).
+from multiprocessing.dummy import Pool as ThreadPool
 ## Make an object
 class object:
     def __init__(self, param):
@@ -21,9 +21,15 @@ def load_object(obj, filename):
 ## It works, but doesn't limit the number of threads spun up. 
 ## Also doesn't handle blocking functions too well.
 def thread_starter():
-    thread.start_new_thread(start, (param1, param2))
+    pool = ThreadPool(3000)
+    ## Arg1 should be a list in order for map to do its magic. 
+    ## If not, use zip & itertools to send the same thing over and over to the function as needed.
+    results = pool.map(start, arg1)
 
-def start(param1, param2):
+    pool.close()
+    pool.join()
+    
+def start(arg1):
     ## do something
 
 if __name__ == '__main__':
