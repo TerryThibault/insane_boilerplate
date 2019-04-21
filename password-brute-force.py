@@ -36,7 +36,7 @@ def start(password):
     try:
         r = requests.post("http://target.url/login", data={'password':password})
     except Exception as e:
-        print("Hit exception: " + e + " on password: " + password + ". Retrying.")
+        print("Hit exception: " + str(e) + " on password: " + password + ". Retrying.")
         start(password)
     if 'Invalid password' in r.text:
         print("Tried password " + password + ". Did not work.")
