@@ -1,5 +1,5 @@
 # Goal
-Detect when the mshta.exe executable is run an unusual and potentially malicious way.
+Detect when the mshta.exe executable is run in an unusual and potentially malicious way.
 
 # Categorization
 These attempts are categorized as [Execution / Mshta](https://attack.mitre.org/techniques/T1170/).
@@ -11,7 +11,7 @@ The strategy will function as follows:
 * Generate an alert if mshta is called from the command line and spawns a child process containing the words "PowerShell" or "VBScript".
 
 # Technical Context
-[HTML Applications](https://docs.microsoft.com/en-us/previous-versions//ms536496(v=vs.85)) are a means of delivering a browser-based application without being constrained by the internet browser security model. 
+[HTML Applications](https://docs.microsoft.com/en-us/previous-versions//ms536496(v=vs.85)), otherwise referenced as HTAs, are a means of delivering a browser-based application without being constrained by the internet browser security model. 
 
 Microsoft initially developed the technology to bring Windows Internet Explorer to the fore as a viable windows development platform. HTAs are trusted and display any information that a web developer creates -- they contain all of the power of Internet Explorer without enforcing the strict security model and user interface of the browser. 
 
@@ -19,7 +19,7 @@ It is considered a feature that HTAs can bypass the normal security policies of 
 
 If HTAs are not used regularly, it is worth disabling the mshta.exe executable entirely. If HTAs are used from the command line, it would make sense to change the default program that a `.hta` program is run by (perhaps to notepad) so that a user is less likely to fall victim to a social engineering attack involving HTAs.
 
-Because HTAs are executed by mshta.exe, a microsoft signed binary, it is possible for an adversary to bypass application whitelisting by crafting a custom hta file that runs PowerShell or VBA code.
+Because HTAs are executed by mshta.exe, a microsoft signed binary, it is possible for an adversary to bypass application whitelisting by crafting a custom hta program that runs PowerShell or VBA code.
 
 Example:
 ```
@@ -47,7 +47,7 @@ This strategy relies on the following assumptions:
 
 A blind spot will occur if any of the assumptions are violated. For instance, the following would not trip the alert: 
 * Windows event forwarding or auditing is disabled on the host.
-*  MSHTA is run without generating a Windows event log.
+* Mshta is run without generating a Windows event log.
 
 # False Positives
 There are several instances where false positives will occur: 
@@ -76,10 +76,11 @@ Validation can occur for this ADS by saving the following as `test.hta`, and run
 # Response
 In the event that this alert fires, the following response procedures are recommended:
 * Identify the PowerShell or VBScript that was executed by the offending HTML Application.
-* If determined to be benign use of the mshta.exe, get a checksum of the HTML Application and add it to a list of known-good programs.
+* If determined to be benign use of the mshta.exe:
+  * Obtain a checksum of the HTML Application and add it to a list of known-good programs.
 * If determined not to be benign use of mshta.exe, treat as a high priority alert.
   * Identify where the malicious HTML Application came from.
-  * Ivestate any processes which are running on the offending device.
+  * Investate any processes which are running on the offending device.
 
 # Additional Resources
 * https://en.wikipedia.org/wiki/HTML_Application
