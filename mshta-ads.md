@@ -2,7 +2,7 @@
 Detect when the mshta.exe executable is run an unusual and potentially malicious way.
 
 # Categorization
-These attempts are categorized as [Execution / MSHTA](https://attack.mitre.org/techniques/T1170/).
+These attempts are categorized as [Execution / Mshta](https://attack.mitre.org/techniques/T1170/).
 
 # Strategy Abstract
 The strategy will function as follows: 
@@ -76,8 +76,8 @@ Validation can occur for this ADS by saving the following as `test.hta`, and run
 # Response
 In the event that this alert fires, the following response procedures are recommended:
 * Identify the PowerShell or VBScript that was executed by the offending HTML Application.
-* If determined to be begnin use of the mshta.exe, get a checksum of the HTML Application and add it to a list of known-good programs.
-* If determined not to be begnin use of mshta.exe, treat as a high priority alert.
+* If determined to be benign use of the mshta.exe, get a checksum of the HTML Application and add it to a list of known-good programs.
+* If determined not to be benign use of mshta.exe, treat as a high priority alert.
   * Identify where the malicious HTML Application came from.
   * Ivestate any processes which are running on the offending device.
 
